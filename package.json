@@ -1,0 +1,37 @@
+{
+  "name": "swfant",
+  "version": "1.0.0",
+  "description": "A PureJS flash player and optimizer.",
+  "main": "./dist/main.js",
+  "scripts": {
+    "rollup": "mkdir -p ./dist/ && rollup --format \"umd\" --name \"swfant\" ./lib/main.js | babili --no-comments > ./dist/main.js",
+    "babel": "babel ./src --out-dir ./lib --no-babelrc --plugins=transform-class-properties",
+    "clean": "rm -rf ./dist/ && rm -rf ./lib/",
+    "build": "npm run babel && npm run rollup",
+    "start": "npm run build && node --harmony ./dist/main.js"
+  },
+  "keywords": [
+    "Animate",
+    "Flash",
+    "Player",
+    "SWF",
+    "Shockware"
+  ],
+  "author": "Samlv9 <Samlv9@live.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babili": "0.0.9",
+    "rollup": "^0.36.4"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guless/SWFAnimator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guless/SWFAnimator/issues"
+  },
+  "homepage": "https://github.com/guless/SWFAnimator#readme"
+}
