@@ -4,7 +4,7 @@
   "description": "A PureJS flash player and optimizer.",
   "main": "./dist/main.js",
   "scripts": {
-    "rollup": "mkdir -p ./dist/ && rollup --format \"umd\" --name \"swfant\" ./lib/main.js | babili --no-comments > ./dist/main.js",
+    "rollup": "mkdir -p ./dist/ && rollup --config=\".jsconfig\" --format \"umd\" --name \"swfant\" ./lib/main.js | babili --no-comments > ./dist/main.js",
     "babel" : "babel ./src --out-dir ./lib --no-babelrc --plugins=\"transform-class-properties\"",
     "clean" : "rm -rf ./dist/ && rm -rf ./lib/ && rm -rf coverage",
     "build" : "npm run babel && npm run rollup",
