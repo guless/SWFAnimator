@@ -35,3 +35,35 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
+
+export default class UCS2Encoder {
+    static encode( text ) {
+        var index = 0;
+        var bytes = new Uint8Array(2 * text.length);
+        
+        for ( var i = 0; i < text.length; ++i ) {
+            var char = text.charCodeAt(i);
+            
+            bytes[index++] = char;
+            bytes[index++] = char >> 8;
+        }
+        
+        return bytes;
+    }
+    
+    static decode( bytes ) {
+        if ( (bytes.length & 1) == 1 ) {
+            throw new RangeError("Invalid buffer length.");
+        }
+        
+        var chars = "";
+        
+        for ( var i = 0; i < bytes.length; i += 2 ) {
+            var byte = (bytes[i] | (bytes[i + 1] << 8));
+            
+            chars += String.fromCharCode(byte);
+        }
+        
+        return chars;
+    }
+}

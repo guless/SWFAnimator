@@ -35,3 +35,29 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
+import Buffer from "../src/core/Buffer";
+import assert from "assert";
+
+describe("[Package: \"core::Buffer\"]", function () {
+    
+    it("Method: \"getUTF8()/setUTF8()\"", function () {
+        var buffer = new Buffer();
+        var string = "😂中国Chinese123";
+        
+        buffer.setUTF8(string);
+        buffer.offset = 0;
+        
+        assert(buffer.getUTF8(buffer.length) === string);
+    });
+    
+    
+    it("Method: \"getUCS2()/setUCS2()\"", function () {
+        var buffer = new Buffer();
+        var string = "😂中国Chinese123";
+        
+        buffer.setUCS2(string);
+        buffer.offset = 0;
+        
+        assert(buffer.getUCS2(buffer.length) === string);
+    });
+});

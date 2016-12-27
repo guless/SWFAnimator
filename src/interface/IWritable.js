@@ -35,3 +35,16 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
+
+/*< export default interface IWritable { >*/
+    /*< setBool( value ); >*/
+    /*< setUI8 ( value ); >*/
+    /*< setSI8 ( value ); >*/
+    /*< setUI16( value ); >*/
+    /*< setSI16( value ); >*/
+    /*< setUI32( value ); >*/
+    /*< setSI32( value ); >*/
+    /*< setFL32( value ); >*/
+    /*< setFL64( value ); >*/
+    /*< setBytes( bytes ); >*/
+/*<}>*/

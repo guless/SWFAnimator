@@ -5,10 +5,13 @@
   "main": "./dist/main.js",
   "scripts": {
     "rollup": "mkdir -p ./dist/ && rollup --format \"umd\" --name \"swfant\" ./lib/main.js | babili --no-comments > ./dist/main.js",
-    "babel": "babel ./src --out-dir ./lib --no-babelrc --plugins=transform-class-properties",
-    "clean": "rm -rf ./dist/ && rm -rf ./lib/",
-    "build": "npm run babel && npm run rollup",
-    "start": "npm run build && node --harmony ./dist/main.js"
+    "babel" : "babel ./src --out-dir ./lib --no-babelrc --plugins=\"transform-class-properties\"",
+    "clean" : "rm -rf ./dist/ && rm -rf ./lib/",
+    "build" : "npm run babel && npm run rollup",
+    "test"  : "babel-node ./node_modules/.bin/babel-istanbul cover _mocha -- --recursive",
+    "start" : "http-server ./ -p 4096 -o",
+    "cover" : "open ./coverage/lcov-report/index.html",
+    "watch" : "watch \"npm run build\" ./src"
   },
   "keywords": [
     "Animate",
@@ -22,8 +25,13 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babili": "0.0.9",
-    "rollup": "^0.36.4"
+    "http-server": "^0.9.0",
+    "rollup": "^0.36.4",
+    "watch": "^1.0.1",
+    "mocha": "^3.2.0",
+    "babel-istanbul": "^0.12.1"
   },
   "dependencies": {},
   "repository": {
