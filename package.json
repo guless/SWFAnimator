@@ -6,7 +6,7 @@
   "scripts": {
     "rollup": "mkdir -p ./dist/ && rollup --format \"umd\" --name \"swfant\" ./lib/main.js | babili --no-comments > ./dist/main.js",
     "babel" : "babel ./src --out-dir ./lib --no-babelrc --plugins=\"transform-class-properties\"",
-    "clean" : "rm -rf ./dist/ && rm -rf ./lib/",
+    "clean" : "rm -rf ./dist/ && rm -rf ./lib/ && rm -rf coverage",
     "build" : "npm run babel && npm run rollup",
     "test"  : "babel-node ./node_modules/.bin/babel-istanbul cover _mocha -- --recursive",
     "start" : "http-server ./ -p 4096 -o",
