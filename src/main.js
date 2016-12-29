@@ -35,3 +35,48 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
+import SWFParser from "./core/SWFParser";
+
+var parser = new SWFParser();
+var counter = 0;
+
+parser.setHandler({
+    onError: function( code, message ) {
+        console.log("[ERROR]:", `(code=${code})`, message);
+    },
+    
+    onHeader: function( header ) {
+        console.log("[HEADER]:", header.toString());
+    },
+    
+    onSwfInfo: function( swfInfo ) {
+        console.log("[SWFINF]:", swfInfo.toString());
+    },
+    
+    onSwfTag: function( tag ) {
+        ++counter;
+        // console.log("[TAGCODE]:", tag.toString());
+    }
+});
+
+function decode( content ) {
+    console.time("[解码时间]");
+    parser.write(content);
+    console.log("[COUNTER]:", counter);
+    console.timeEnd("[解码时间]");
+}
+
+if ( typeof window != "undefined" ) {
+    var loader = new XMLHttpRequest();
+    
+    loader.addEventListener("load", function( evt ) { decode(loader.response); });
+    loader.open("GET", "../assets/angel.swf", true);
+    loader.responseType = "arraybuffer";
+    loader.send(null);
+}
+
+else {
+    var fs = require("fs");
+    
+    decode(fs.readFileSync("./assets/angel.swf"));
+}

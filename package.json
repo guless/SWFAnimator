@@ -9,6 +9,7 @@
     "clean" : "rm -rf ./dist/ && rm -rf ./lib/ && rm -rf coverage",
     "build" : "npm run babel && npm run rollup",
     "test"  : "babel-node ./node_modules/.bin/babel-istanbul cover _mocha -- --recursive",
+    "sample": "npm run build && node ./dist/main.js",
     "start" : "http-server ./ -p 4096 -o",
     "cover" : "open ./coverage/lcov-report/index.html",
     "watch" : "watch \"npm run build\" ./src"
@@ -29,6 +30,7 @@
     "babili": "0.0.9",
     "http-server": "^0.9.0",
     "rollup": "^0.36.4",
+    "rollup-plugin-commonjs": "^6.0.1",
     "watch": "^1.0.1",
     "mocha": "^3.2.0",
     "babel-istanbul": "^0.12.1"

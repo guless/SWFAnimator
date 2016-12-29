@@ -1,1 +1,11 @@
-export default { intro: null };
+import fs from "fs";
+import commonjs from 'rollup-plugin-commonjs';
+
+export default { 
+    /// 预检测代码片段。
+    "intro": fs.readFileSync("./detect.js"),
+    
+    /// 插件列表
+    "plugins": [ commonjs() ]
+};
+

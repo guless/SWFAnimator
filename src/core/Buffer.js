@@ -150,12 +150,12 @@ export default class Buffer /*< implements IReadable, IWritable, ITextReadable, 
         }
     }
     
-    alloc( offset, length ) {
+    alloc( offset, length, match = false ) {
         if ( this._buffer.length >= length ) {
             return;
         }
         
-        var newlen = Buffer.__CHUNK_SIZE__ * Math.ceil(length / Buffer.__CHUNK_SIZE__);
+        var newlen = match ? length : (Buffer.__CHUNK_SIZE__ * Math.ceil(length / Buffer.__CHUNK_SIZE__));
         var oldbuf = this._buffer.subarray(0, Math.min(offset, this._length));
         
         this._buffer = new Uint8Array(newlen);
@@ -272,6 +272,37 @@ export default class Buffer /*< implements IReadable, IWritable, ITextReadable, 
         
         this._offset = Math.max(0, this._offset - size);
         this._length = Math.max(0, this._length - size);
+    }
+    
+    hexof( offset = 0, length = 16 ) {
+        if ( offset < 0 ) {
+            offset += this._length;
+        }
+        
+        if ( offset < 0 ) {
+            throw new RangeError("Offset is outside the bounds of the buffer");
+        }
+        
+        if ( length < 0 ) {
+            throw new RangeError("Invalid buffer length");
+        }
+        
+        var codes = [];
+        var total = Math.max(0, Math.min(length, this._length - offset));
+        
+        for ( var i = 0; i < total; ++i ) {
+            codes.push(("0" + this._buffer[i + offset].toString(16)).slice(-2));
+        }
+        
+        if ( codes.length <= 0 ) {
+            codes.push("empty");
+        }
+        
+        else if ( this._length > total + offset ) {
+            codes.push("...");
+        }
+        
+        return `[Buffer offset=${this._offset}, length=${this._length}, content=<${codes.toString()}>]`;
     }
     
     getBool() {
@@ -484,17 +515,6 @@ export default class Buffer /*< implements IReadable, IWritable, ITextReadable, 
     }
     
     toString() {
-        var hexof = [];
-        var total = Math.min(16, this._length);
-        
-        for ( var i = 0; i < total; ++i ) {
-            hexof.push(("0" + this._buffer[i].toString(16)).slice(-2));
-        }
-        
-        if ( total < this._length ) {
-            hexof.push("...");
-        }
-        
-        return `[Buffer offset=${this._offset}, length=${this._length}, content=<${hexof.toString()}>]`;
+        return this.hexof(0);
     }
 }
