@@ -61,7 +61,11 @@ parser.setHandler({
 
 function decode( content ) {
     console.time("[解码时间]");
-    parser.write(content);
+    
+    for ( var i = 0; i < content.length; i += 16 * 1024 ) {
+        parser.write(content.subarray(i, i + 16 * 1024));
+    }
+    
     console.log("[COUNTER]:", counter);
     console.timeEnd("[解码时间]");
 }

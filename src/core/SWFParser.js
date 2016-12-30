@@ -175,8 +175,8 @@ export default class SWFParser /*< implements IParser >*/ {
                         
                         this._zStream = new ZStream();
                         
-                        Inflate.inflateInit2(this._zStream, 0x20 | 0xF);
-                        Inflate.inflateGetHeader(this._zStream, new GZHeader());
+                        Inflate.inflateInit(this._zStream);
+                        // Inflate.inflateGetHeader(this._zStream, new GZHeader());
                         
                         this._zStream.output    = this._behind;
                         this._zStream.next_out  = this._buffer.length;
@@ -199,7 +199,7 @@ export default class SWFParser /*< implements IParser >*/ {
                 this._zStream.next_in  = 0;
                 this._zStream.avail_in = data.length;
                 
-                var status = Inflate.inflate(this._zStream, Constants.Z_SYNC_FLUSH);
+                var status = Inflate.inflate(this._zStream, Constants.Z_NO_FLUSH);
                 
                 if ( !(status === Constants.Z_OK || status === Constants.Z_STREAM_END) ) {
                     this._isError = true;
