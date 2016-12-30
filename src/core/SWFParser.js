@@ -39,7 +39,6 @@ import SWFBuffer from "./SWFBuffer";
 import SWFHeader from "./SWFHeader";
 import SWFInfo   from "./SWFInfo";
 import Rect      from "./records/Rect";
-import TagCode   from "./records/TagCode";
 /*< import IParser from "../interface/IParser"; >*/
 import ZStream   from "../pako/zlib/zstream";
 import Messages  from "../pako/zlib/messages";
@@ -61,8 +60,8 @@ export default class SWFParser /*< implements IParser >*/ {
         this._behind   = null;
         this._header   = null;
         this._swfInfo  = null;
-        this._tagcode  = null;
-        this._taglast  = null;
+        this._curtagc  = null;
+        this._oldtagc  = null;
         this._handler  = handler;
         this._isEnded  = false;
         this._isError  = false;
@@ -242,18 +241,18 @@ export default class SWFParser /*< implements IParser >*/ {
     }
     
     drawTags() {
-        while( this._tagcode = (this._taglast || this._buffer.tryTagCode(this._tagcode)) ) {
-            if ( this._buffer.remain < this._tagcode.length ) {
-                this._taglast = this._tagcode;
+        while( this._curtagc = (this._oldtagc || this._buffer.tryTagCode(this._curtagc)) ) {
+            if ( this._buffer.remain < this._curtagc.length ) {
+                this._oldtagc = this._curtagc;
                 break;
             }
             
             else {
-                this._taglast = null;
+                this._oldtagc = null;
             }
             
-            this._buffer.offset += this._tagcode.length;
-            this._handler && this._handler.onSwfTag(this._tagcode);
+            this._buffer.offset += this._curtagc.length;
+            this._handler && this._handler.onSwfTag(this._curtagc);
         }
         
         if ( (this._isEnded) && (this._buffer.remain != 0) ) {

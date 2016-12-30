@@ -36,13 +36,13 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-export default class TagCode {
-    constructor( type = 0, length = 0 ) {
-        this.type = type;
+export default class SWFTagCode {
+    constructor( code = 0, length = 0 ) {
+        this.code   = code;
         this.length = length;
     }
     
     toString() {
-        return `TagCode(${this.type},${this.length})`;
+        return `SWFTagCode(${this.code},${this.length})`;
     }
 }

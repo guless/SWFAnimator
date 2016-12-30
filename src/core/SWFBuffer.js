@@ -35,12 +35,12 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
-import Buffer    from "./Buffer";
-import SWFHeader from "./SWFHeader";
-import SWFInfo   from "./SWFInfo";
-import Rect      from "./records/Rect";
-import Matrix    from "./records/Matrix";
-import TagCode   from "./records/TagCode";
+import Buffer     from "./Buffer";
+import SWFHeader  from "./SWFHeader";
+import SWFInfo    from "./SWFInfo";
+import SWFTagCode from "./SWFTagCode";
+import Rect       from "./records/Rect";
+import Matrix     from "./records/Matrix";
 /*< import IExtReadable from "../interface/IExtReadable"; >*/
 /*< import IExtWritable from "../interface/IExtWritable"; >*/
 /*< import IRecordReadable from "../interface/IRecordReadable"; >*/
@@ -76,7 +76,7 @@ export default class SWFBuffer extends Buffer /*< implements IExtReadable, IExtW
         return (this.remain >= range + 4 ? this.getSWFInfo(swfInfo) : null);
     }
     
-    getTagCode( tagCode ) {
+    getTagCode( tagc ) {
         this.geton(2);
         
         var a = this._buffer[this._offset++];
@@ -85,23 +85,23 @@ export default class SWFBuffer extends Buffer /*< implements IExtReadable, IExtW
         var t = (b << 2) | (a >> 6); // High 10 bits
         var l = (a & 0x3F);          // Low 6 bits
         
-        if ( l == 0x3F ) { l = this.getUI32(); }
-        if ( !tagCode  ) { tagCode = new TagCode(); }
+        if ( l == 0x3F ) { l = this.getUI32();  }
+        if ( !tagc ) { tagc = new SWFTagCode(); }
         
-        tagCode.type   = t;
-        tagCode.length = l;
+        tagc.code   = t;
+        tagc.length = l;
         
-        return tagCode;
+        return tagc;
     }
     
-    setTagCode( tagCode ) {
+    setTagCode( tagc ) {
         throw new SyntaxError("Method does not implements");
     }
     
-    tryTagCode( tagCode ) {
+    tryTagCode( tagc ) {
         if ( this.remain < 2 ) { return null; }
         if ( this.remain < 6 && ((this._buffer[this._offset] & 0x3F) == 0x3F) ) { return null; }
-        return this.getTagCode(tagCode);
+        return this.getTagCode(tagc);
     }
     
 /*< DATA_TYPES >*/
